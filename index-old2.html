@@ -1,0 +1,112 @@
+<!DOCTYPE HTML>
+
+
+<style>
+
+p {
+  text-align: center;
+  font-size: 60px;
+}
+</style>
+
+<body>
+
+<p id="demo"></p>
+<audio controls src="mlg-airhorn.mp3"/>
+<script>
+
+  //  var foghorn;
+
+//    function preload(){
+    //  foghorn = loadSound("flutterball/mlg-airhorn.mp3")
+  //  }
+  var foghorn = new Audio;
+  foghorn.src = "mlg-airhorn.mp3";
+
+
+    function ParseURLParameter(Parameter){
+      var FullURL = window.location.search.substring(1);
+      var ParametersArray = FullURL.split("&");
+      for (var i=0; i<ParametersArray.length; i++){
+        var CurrentParameter = ParametersArray[i].split("=");
+        if (CurrentParameter[0] == Parameter){
+          return CurrentParameter[1];
+        }
+      }
+    }
+    var PageName = ParseURLParameter("page");
+    if (typeof PageName == "undefined"){
+      	flutterTime = prompt("When will the next Flutter be?(in minutes)","");
+        var countTime = parseInt(flutterTime);
+        var now = new Date().getTime();
+        var countDownDate = new Date(now + countTime*1000).getTime();
+
+        var distance = countDownDate - now;
+        //var countDownDate = new Date(now + countTime*60000).getTime();
+        var x = setInterval(function() {
+            now = new Date().getTime();
+            var distance = (countDownDate - now) ;
+            if (now < countDownDate){
+            // Find the distance between now an the count down date
+
+              var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+              var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+              document.getElementById("demo").innerHTML = minutes + "min " + seconds + "s";
+              // If the count down is over, write some text
+              if (minutes === 0 && seconds <= 30 && seconds >=25 ){
+              document.getElementById("demo").innerHTML = "Flutterinos Assemble...";
+              }
+
+            }
+
+            if (distance <= 0) {
+                document.getElementById("demo").innerHTML = "!!FLUTTER TIME!!";
+                foghorn.play();
+                clearInterval(x);
+            }
+        }, 500);
+
+        var url=window.location.href,
+        separator = (url.indexOf("?")===-1)?"?":"&",
+        newParam=separator + "page=" + (now + distance);
+        newUrl=url.replace(newParam,"");
+        newUrl+=newParam;
+        //window.location.href =newUrl;
+        //PageName = "page";
+        document.write( "Crt+C the link below and post to #flutterball:  ");
+        document.write('<br/>');
+        document.write('<br/>');
+        document.write(newUrl);
+
+    }else {
+
+        /*Fix the countdown date so that it is the time on the parameter*/
+        var target = parseInt(PageName);
+        var now = new Date().getTime();
+        var dist = target - now;
+        var countdown = dist;
+        var x = setInterval(function() {
+            now = new Date().getTime();
+            var dist = (target - now);
+            if (dist > 0){
+            // Find the dist between now an the count down date
+
+              var minutes = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60));
+              var seconds = Math.floor((dist % (1000 * 60)) / 1000);
+              document.getElementById("demo").innerHTML = minutes + "min " + seconds + "s";
+              if (minutes === 0 && seconds <= 30 && seconds >=25 ){
+              document.getElementById("demo").innerHTML = "Flutterinos Assemble...";
+              }
+
+            }else{
+
+                document.getElementById("demo").innerHTML = "!!FLUTTER TIME!!";
+                clearInterval(x);
+            }
+        }, 500);
+
+    }
+
+</script>
+
+</body>

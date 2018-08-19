@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+
+<style>
+p {
+  text-align: center;
+  font-size: 60px;
+}
+</style>
+
+<body>
+
+<p id="demo"></p>
+
+<script>
+
+var parseQueryString = function(url) {
+  var urlParams = {};
+  url.replace(
+    new RegExp("([^?=&]+)(=([^&]*))?", "g"),
+    function($0, $1, $2, $3) {
+      urlParams[$1] = $3;
+    }
+  );
+
+  return urlParams;
+};
+
+var urlToParse = location.search;
+var result = parseQueryString(urlToParse );
+console.info(JSON.stringify(result));
+
+if (!result.time){
+	//If there's no paramaters in the current URL then prompt the user to set the timer
+
+	flutterTime = prompt("When will the next Flutter be?(in minutes)","");
+	var countTime = parseInt(flutterTime);
+	var now = new Date().getTime();
+	var countDownDate = new Date(now + countTime*60000).getTime();
+
+  var distance = countDownDate - now;
+  result.time = countDownDate;
+//Otherwise, if there's already a parameter then execute the code normally
+// Update the count down every 1 second
+
+  var countDownDate = new Date(now + countTime*60000).getTime();
+  var x = setInterval(function() {
+  		now = new Date().getTime();
+      var distance = (countDownDate - now) ;
+      if (now < countDownDate){
+      // Find the distance between now an the count down date
+
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        document.getElementById("demo").innerHTML = minutes + "min " + seconds + "s";
+        // If the count down is over, write some text
+        if (minutes === 0 && seconds <= 30 && seconds >=25 ){
+        document.getElementById("demo").innerHTML = "Flutterinos Assemble...";
+        }
+
+  		}
+
+      if (distance <= 0) {
+      	//alert("done!");
+      		document.getElementById("demo").innerHTML = "!!FLUTTER TIME!!";
+          clearInterval(x);
+      }
+  }, 500);
+  var separator = (window.location.href.indexOf("?")===-1)?"?":"&";
+  var url=window.location.href,
+    separator = (url.indexOf("?")===-1)?"?":"&",
+    newParam=separator + "ts=true";
+    newUrl=url.replace(newParam,"");
+    newUrl+=newParam;
+    window.location.href =newUrl;
+  window.location.href = window.location.href + separator + "time=",distance;
+  document.write( "Crt+C the link below and post to #flutterball:  ");
+  document.write('<br/>');
+  document.write('<br/>');
+  document.write(separator);
+
+}else if (result.time) {
+  var currentURL = window.location.href.result.time;
+
+
+
+}
+
+</script>
+
+</body>
